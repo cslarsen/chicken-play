@@ -40,6 +40,13 @@
   (define (enclose-first L spaces)
     (define (has-children? html-node true-value false-value)
       (if (list? (cadr html-node)) true-value false-value))
+
+    (define (open-tag name)
+      (string-append "<" name ">"))
+
+    (define (close-tag name)
+      (string-append "</" name ">"))
+
     (let
       ((spaces+ (string-append " " spaces))
        (cond-spaces (has-children? L spaces ""))
@@ -50,11 +57,10 @@
 
       (string-append
        nl spaces
-       "<" (html->indented-string current-node "") ">"
-
+       (open-tag (html->indented-string current-node ""))
        (html->indented-string child-nodes spaces+)
-
-       cond-spaces "</" (html->indented-string current-node "") ">"
+       cond-spaces
+       (close-tag (html->indented-string current-node ""))
        nl)))
 
   (cond ((null? L) "")
