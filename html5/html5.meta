@@ -1,0 +1,4 @@
+((files "html.scm")
+ (license "BSD")
+ (author "Christian Stigen Larsen")
+ (synopsis "Simple HTML renderer"))

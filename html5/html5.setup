@@ -1,0 +1,9 @@
+(compile -s -O3 -d1 "html5.scm" -j html5)
+(compile -c -O3 -d1 "html5.scm" -unit html5)
+(compile -s -O3 -d0 "html5.import.scm")
+
+(install-extension
+  'html5
+  '("html5.o" "html5.so" "html5.import.so")
+  '((version 0.1)
+    (static "html5.o")))
