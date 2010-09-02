@@ -22,10 +22,6 @@
 (define (html5:validate doc)
   doc)
 
-; unimplemented html5 pretty-printer
-(define (html5:html->pretty-string doc)
-  (html5:html->string doc))
-
 ; validate html5 and return indented text document
 (define (html5:render doc)
   (html5:html->pretty-string (html5:validate doc)))
