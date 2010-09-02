@@ -38,7 +38,7 @@
         (format "~s" s))))
 
   (define (enclose-first L spaces)
-    (define (has-children? html-node true-value false-value)
+    (define (if-has-children? html-node true-value false-value)
       (if (list? (cadr html-node)) true-value false-value))
 
     (define (open-tag name)
@@ -48,27 +48,30 @@
       (string-append "</" name ">"))
 
     (let
-      ((spaces+ (string-append " " spaces))
-       (cond-spaces (has-children? L spaces ""))
-       (nl "\n")
-       (cond-nl (has-children? L "" "\n"))
-       (current-node (car L))
+      ((current-node (car L))
        (child-nodes (cdr L)))
 
-      (string-append
-       nl spaces
+      (string-append spaces
+       ; <tag>
        (open-tag (html->indented-string current-node ""))
-       (html->indented-string child-nodes spaces+)
-       cond-spaces
-       (close-tag (html->indented-string current-node ""))
-       nl)))
+         (if-has-children? L "\n" "")
+
+       ; recurse
+       (html->indented-string child-nodes (string-append " " spaces))
+
+       ; </tag>
+       (if-has-children? L spaces "")
+         (close-tag (html->indented-string current-node "")) "\n")))
 
   (cond ((null? L) "")
      ((not (list? L)) (->string L))
      (else
        (string-append
          (if (symbol? (car L))
+           ; render node ...
            (enclose-first L spaces)
+
+           ; ... and recurse
            (string-append
              (html->indented-string (car L) spaces)
              (html->indented-string (cdr L) spaces)))))))
