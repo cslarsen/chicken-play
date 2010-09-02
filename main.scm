@@ -43,7 +43,7 @@
     doctype "\n"
     (html5:render
       `(html
-         (head ,title)
+         (head (title ,title))
          (body
            ,(rows->table
              (sqlite3:map-row
