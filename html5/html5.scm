@@ -38,17 +38,24 @@
         (format "~s" s))))
 
   (define (enclose-first L spaces)
+    (define (has-children? html-node true-value false-value)
+      (if (list? (cadr html-node)) true-value false-value))
     (let
       ((spaces+ (string-append " " spaces))
-       (cond-spaces (if (list? (cadr L)) spaces "")))
+       (cond-spaces (has-children? L spaces ""))
+       (nl "\n")
+       (cond-nl (has-children? L "" "\n"))
+       (current-node (car L))
+       (child-nodes (cdr L)))
 
-      (string-append "\n" spaces
-       "<" (html->indented-string (car L) spaces+) ">"
+      (string-append
+       nl spaces
+       "<" (html->indented-string current-node "") ">"
 
-       (html->indented-string (cdr L) spaces+)
+       (html->indented-string child-nodes spaces+)
 
-       cond-spaces "</" (html->indented-string (car L) spaces+) ">"
-       "\n")))
+       cond-spaces "</" (html->indented-string current-node "") ">"
+       nl)))
 
   (cond ((null? L) "")
      ((not (list? L)) (->string L))
