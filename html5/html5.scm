@@ -1,4 +1,5 @@
-; simple html5 rendering
+; Simple HTML5 rendering
+; by Christian Stigen Larsen
 (module html5
   *
   (import scheme chicken)
