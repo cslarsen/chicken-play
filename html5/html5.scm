@@ -84,7 +84,7 @@
   (define (validate doc) doc)
 
   ; validate html5 and return indented text document
-  (define (render doc)
+  (define (to-string doc)
     (pretty-string (validate doc)))
 
   (define (make-table rows)
