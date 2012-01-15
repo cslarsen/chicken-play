@@ -77,6 +77,19 @@
              (html->indented-string (car L) spaces)
              (html->indented-string (cdr L) spaces)))))))
 
-  (define (html->pretty-string L)
+  (define (pretty-string L)
     (html->indented-string L ""))
-)
+
+  ; unimplemented html5 validation
+  (define (validate doc) doc)
+
+  ; validate html5 and return indented text document
+  (define (render doc)
+    (pretty-string (validate doc)))
+
+  (define (make-table rows)
+    (let* ((td (lambda (cell) `(td, cell)))
+           (tr (lambda (row) `(tr ,(map td row)))))
+          `(table ,(list (map tr rows)))))
+
+) ; module
